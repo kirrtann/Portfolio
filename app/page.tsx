@@ -1,186 +1,368 @@
-import Link from "next/link";
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import {
-  Github,
-  Linkedin,
   Mail,
-  ExternalLink,
   Code,
   Briefcase,
   GraduationCap,
-  LinkedinIcon,
+  Sparkles,
+  Zap,
 } from "lucide-react";
-import { tech } from "./common/options";
+import Link from "next/link";
+import { tech, social } from "./common/options";
+import ParticleBackground from "./common/particle-background";
+import FloatingElements from "./common/floating-elements";
+
+import Navbar from "./navbar/page";
+import Projects from "./projects/page";
+import About from "./about/page";
+import ContactForm from "./contact/page";
+import CodeRainBackground from "./common/code-rain-background";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 mb-6">
-              Hi, I'm{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Kirtan
-              </span>
-            </h1>
-            <p className="text-xl sm:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              A passionate{" "}
-              <span className="font-semibold text-blue-600">
-                Frontend Developer
-              </span>{" "}
-              crafting beautiful, responsive web experiences with React.js and
-              Next.js
-            </p>
-          </div>
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isLoaded, setIsLoaded] = useState(false);
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Link
-              href="/projects"
-              className="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+  useEffect(() => {
+    setIsLoaded(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+      },
+    },
+  };
+
+  return (
+    <div className="relative  bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
+      <ParticleBackground />
+      <CodeRainBackground />
+      <FloatingElements />
+      <Navbar />
+
+      {/* Enhanced Cursor follower */}
+      <motion.div
+        className="fixed w-6 h-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
+        animate={{
+          x: mousePosition.x - 12,
+          y: mousePosition.y - 12,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 500,
+          damping: 28,
+        }}
+      />
+
+      {/* Hero Section */}
+      <section
+        id="home"
+        className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+      >
+        <motion.div
+          className="max-w-6xl mx-auto text-center z-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+        >
+          <motion.div variants={itemVariants} className="mb-8">
+            <motion.div
+              className="inline-block mb-6"
+              animate={{
+                rotate: [0, 5, -5, 0],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: "reverse",
+              }}
             >
-              <Code className="mr-2 h-5 w-5" />
-              View My Work
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center px-8 py-3 border border-slate-300 bg-transparent hover:bg-slate-50 text-slate-700 font-medium rounded-lg transition-colors"
+              <Sparkles className="w-12 h-12 text-green-400 mx-auto mb-4" />
+            </motion.div>
+
+            <motion.h1
+              className="text-6xl md:text-8xl font-bold mb-6"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, type: "spring" }}
             >
-              <Mail className="mr-2 h-5 w-5" />
-              Get In Touch
-            </Link>
-          </div>
+              <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                Hi, I'm Kirtan
+              </span>
+            </motion.h1>
+
+            <motion.div className="relative" variants={itemVariants}>
+              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+                A passionate{" "}
+                <motion.span
+                  className="font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
+                  animate={{
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  }}
+                  transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+                >
+                  Frontend Developer
+                </motion.span>{" "}
+                crafting extraordinary digital experiences with cutting-edge
+                technologies
+              </p>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12"
+          >
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link
+                href="#projects"
+                className="group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-blue-600 text-white font-semibold rounded-full overflow-hidden transition-all duration-300"
+              >
+                <motion.div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Code className="mr-2 h-5 w-5 relative z-10" />
+                <span className="relative z-10">View My Work</span>
+                <motion.div
+                  className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0, 0.2, 0],
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    repeat: Number.POSITIVE_INFINITY,
+                  }}
+                />
+              </Link>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link
+                href="#contact"
+                className="group inline-flex items-center px-8 py-4 border-2 border-green-400 text-green-400 font-semibold rounded-full hover:bg-green-400 hover:text-slate-900 transition-all duration-300"
+              >
+                <Mail className="mr-2 h-5 w-5" />
+                Get In Touch
+              </Link>
+            </motion.div>
+          </motion.div>
 
           {/* Social Links */}
-          <div className="flex justify-center space-x-6">
-            <Link
-              href="https://github.com/kirrtann"
-              target="_blank"
-              className="text-slate-600 hover:text-blue-600 transition-colors"
-            >
-              <LinkedinIcon className="h-6 w-6" />
-            </Link>
-            <Link
-              href="https://github.com/kirtansonagra"
-              target="_blank"
-              className="text-slate-600 hover:text-slate-900 transition-colors"
-            >
-              <Github className="h-6 w-6" />
-            </Link>
-            <Link
-              href="mailto:kirtansonagra313@gmail.com"
-              className="text-slate-600 hover:text-red-600 transition-colors"
-            >
-              <Mail className="h-6 w-6" />
-            </Link>
-          </div>
-        </div>
+          <motion.div
+            variants={itemVariants}
+            className="flex justify-center space-x-8 mb-12"
+          >
+            {social.map((social, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.2, y: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Link
+                  href={social.href}
+                  target="_blank"
+                  className={`text-gray-400 ${social.color} transition-all duration-300`}
+                >
+                  <social.icon className="h-8 w-8" />
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Experience & Education Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            My Journey
+          </motion.h2>
+
           <div className="grid md:grid-cols-2 gap-8">
             {/* Experience */}
-            <div className="bg-white/70 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-shadow rounded-lg">
-              <div className="p-8">
+            <motion.div
+              className="group relative"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+              <div className="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 hover:border-green-400/50 transition-all duration-300">
                 <div className="flex items-center mb-6">
-                  <Briefcase className="h-8 w-8 text-blue-600 mr-3" />
-                  <h2 className="text-2xl font-bold text-slate-900">
-                    Experience
-                  </h2>
+                  <motion.div
+                    className="p-3 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl mr-4"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Briefcase className="h-6 w-6 text-white" />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold text-white">Experience</h3>
                 </div>
+
                 <div className="space-y-6">
-                  <div className="border-l-4 border-blue-600 pl-6">
-                    <h3 className="text-lg font-semibold text-slate-900">
+                  <div className="relative pl-6 border-l-2 border-green-400">
+                    <div className="absolute -left-2 top-0 w-4 h-4 bg-green-400 rounded-full" />
+                    <h4 className="text-lg font-semibold text-white mb-1">
                       Frontend Developer Intern
-                    </h3>
-                    <p className="text-blue-600 font-medium">SolGuruz LLP</p>
-                    <p className="text-sm text-slate-500 mb-2">2024 - 2025</p>
-                    <p className="text-slate-600">
+                    </h4>
+                    <p className="text-green-400 font-medium mb-1">
+                      SolGuruz LLP
+                    </p>
+                    <p className="text-sm text-gray-400 mb-3">
+                      (Nov 2024 - Present)
+                    </p>
+                    <p className="text-gray-300 leading-relaxed">
                       Worked on real-world frontend projects using React.js and
                       Next.js. Collaborated with senior developers to build
-                      responsive web applications and gained hands-on experience
-                      with modern development practices.
+                      responsive web applications.
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Education */}
-            <div className="bg-white/70 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-shadow rounded-lg">
-              <div className="p-8">
+            <motion.div
+              className="group relative"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+              <div className="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 hover:border-blue-400/50 transition-all duration-300">
                 <div className="flex items-center mb-6">
-                  <GraduationCap className="h-8 w-8 text-indigo-600 mr-3" />
-                  <h2 className="text-2xl font-bold text-slate-900">
-                    Education
-                  </h2>
+                  <motion.div
+                    className="p-3 bg-gradient-to-r from-blue-600 to-purple-500 rounded-xl mr-4"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <GraduationCap className="h-6 w-6 text-white" />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold text-white">Education</h3>
                 </div>
+
                 <div className="space-y-6">
-                  <div className="border-l-4 border-indigo-600 pl-6">
-                    <h3 className="text-lg font-semibold text-slate-900">
+                  <div className="relative pl-6 border-l-2 border-blue-400">
+                    <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-400 rounded-full" />
+                    <h4 className="text-lg font-semibold text-white mb-1">
                       B.Tech Information Technology
-                    </h3>
-                    <p className="text-indigo-600 font-medium">
+                    </h4>
+                    <p className="text-blue-400 font-medium mb-1">
                       Silver Oak University
                     </p>
-                    <p className="text-sm text-slate-500">2023 - 2026</p>
+                    <p className="text-sm text-gray-400">2023 - 2026</p>
                   </div>
-                  <div className="border-l-4 border-slate-300 pl-6">
-                    <h3 className="text-lg font-semibold text-slate-900">
+
+                  <div className="relative pl-6 border-l-2 border-gray-500">
+                    <div className="absolute -left-2 top-0 w-4 h-4 bg-gray-500 rounded-full" />
+                    <h4 className="text-lg font-semibold text-white mb-1">
                       Diploma in Information Technology
-                    </h3>
-                    <p className="text-slate-600 font-medium">
+                    </h4>
+                    <p className="text-gray-400 font-medium mb-1">
                       Government Polytechnic Gandhinagar
                     </p>
-                    <p className="text-sm text-slate-500">2020 - 2023</p>
+                    <p className="text-sm text-gray-400">2020 - 2023</p>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white/50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12">
-            Technologies I Work With
-          </h2>
+      <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Technologies I Learn
+          </motion.h2>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {tech.map((skill) => (
-              <div
+            {tech.map((skill, index) => (
+              <motion.div
                 key={skill}
-                className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+                className="group relative"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10, scale: 1.05 }}
               >
-                <p className="font-medium text-slate-800">{skill}</p>
-              </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-600/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
+                <div className="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 text-center hover:border-green-400/50 transition-all duration-300">
+                  <motion.div
+                    className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg mx-auto mb-4 flex items-center justify-center"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Zap className="w-6 h-6 text-white" />
+                  </motion.div>
+                  <p className="font-semibold text-white">{skill}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">
-            Let's Build Something Amazing Together
-          </h2>
-          <p className="text-xl text-slate-600 mb-8">
-            I'm always excited to work on new projects and collaborate with
-            fellow developers.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg transition-colors"
-          >
-            Start a Conversation
-            <ExternalLink className="ml-2 h-5 w-5" />
-          </Link>
-        </div>
+      {/* Projects Section */}
+      <section id="projects">
+        <Projects />
+      </section>
+
+      {/* About Section */}
+      <section id="about">
+        <About />
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact">
+        <ContactForm />
       </section>
     </div>
   );

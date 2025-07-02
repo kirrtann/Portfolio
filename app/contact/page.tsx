@@ -1,245 +1,188 @@
 "use client";
-import { useState } from "react";
 import type React from "react";
-import { Mail, Phone, MapPin, Send, Linkedin, Github } from "lucide-react";
+
+import { motion } from "framer-motion";
+import SimpleContactForm from "../common/simple-contact-form";
 import Link from "next/link";
-
-export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    // You can integrate with a form service like Formspree, Netlify Forms, etc.
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+const ContactForm = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-            Get In{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Touch
-            </span>
-          </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Have a project in mind or just want to chat? I'd love to hear from
-            you!
-          </p>
-        </div>
+    <>
+      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Get In Touch
+          </motion.h2>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Contact Information */}
-          <div className="lg:col-span-1">
-            <div className="bg-white/70 backdrop-blur-sm border-0 shadow-lg mb-8 rounded-lg">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                  Let's Connect
-                </h2>
-              </div>
-              <div className="p-6 pt-0 space-y-6">
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 text-blue-600 mr-4" />
-                  <div>
-                    <p className="font-medium text-slate-900">Email</p>
-                    <Link
-                      href="mailto:kirtansonagra313@gmail.com"
-                      className="text-slate-600 hover:text-blue-600 transition-colors"
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Contact Info */}
+            <motion.div
+              className="lg:col-span-1 space-y-6"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              {/* Let's Connect Card */}
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-green-400/50 transition-all duration-300">
+                  <h3 className="text-2xl font-bold text-white mb-6">
+                    Let's Connect
+                  </h3>
+
+                  <div className="space-y-6">
+                    <motion.div
+                      className="flex items-center group/item"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      kirtansonagra313@gmail.com
-                    </Link>
-                  </div>
-                </div>
+                      <div className="p-2 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg mr-4 group-hover/item:scale-110 transition-transform">
+                        <Mail className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">Email</p>
+                        <Link
+                          href="mailto:kirtansonagra313@gmail.com"
+                          className="text-gray-300 hover:text-green-400 transition-colors"
+                        >
+                          kirtansonagra313@gmail.com
+                        </Link>
+                      </div>
+                    </motion.div>
 
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 text-green-600 mr-4" />
-                  <div>
-                    <p className="font-medium text-slate-900">Phone</p>
-                    <Link
-                      href="tel:+919974033593"
-                      className="text-slate-600 hover:text-green-600 transition-colors"
+                    <motion.div
+                      className="flex items-center group/item"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      +91 9974033593
-                    </Link>
+                      <div className="p-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg mr-4 group-hover/item:scale-110 transition-transform">
+                        <Phone className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">Phone</p>
+                        <Link
+                          href="tel:+919974033593"
+                          className="text-gray-300 hover:text-green-400 transition-colors"
+                        >
+                          +91 9974033593
+                        </Link>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      className="flex items-center group/item"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="p-2 bg-gradient-to-r from-red-500 to-pink-600 rounded-lg mr-4 group-hover/item:scale-110 transition-transform">
+                        <MapPin className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">Location</p>
+                        <p className="text-gray-300">Ahmedabad, Gujarat</p>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
+              </div>
 
-                <div className="flex items-center">
-                  <MapPin className="h-5 w-5 text-red-600 mr-4" />
-                  <div>
-                    <p className="font-medium text-slate-900">Location</p>
-                    <p className="text-slate-600">Gujarat, India</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+              {/* Social Links Card */}
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-blue-400/50 transition-all duration-300">
+                  <h3 className="text-xl font-bold text-white mb-6">
+                    Follow Me
+                  </h3>
 
-            {/* Social Links */}
-            <div className="bg-white/70 backdrop-blur-sm border-0 shadow-lg rounded-lg">
-              <div className="p-6">
-                <h2 className="text-xl font-bold text-slate-900 mb-6">
-                  Follow Me
-                </h2>
-              </div>
-              <div className="p-6 pt-0">
-                <div className="flex space-x-4">
-                  <Link
-                    href="https://linkedin.com/in/kirtan-sonagra"
-                    target="_blank"
-                    className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </Link>
-                  <Link
-                    href="https://github.com/kirtansonagra"
-                    target="_blank"
-                    className="flex items-center justify-center w-12 h-12 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors"
-                  >
-                    <Github className="h-5 w-5" />
-                  </Link>
-                  <Link
-                    href="mailto:kirtansonagra313@gmail.com"
-                    className="flex items-center justify-center w-12 h-12 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    <Mail className="h-5 w-5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white/70 backdrop-blur-sm border-0 shadow-lg rounded-lg">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                  Send Me a Message
-                </h2>
-              </div>
-              <div className="p-6 pt-0">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-slate-700 mb-2"
+                  <div className="flex space-x-4">
+                    <motion.div
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Link
+                        href="https://in.linkedin.com/in/kirtan-sonagra-2b9252239"
+                        target="_blank"
+                        className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
                       >
-                        Name *
-                      </label>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-slate-700 mb-2"
+                        <Linkedin className="h-5 w-5" />
+                      </Link>
+                    </motion.div>
+
+                    <motion.div
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Link
+                        href="https://github.com/kirrtann"
+                        target="_blank"
+                        className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-slate-700 to-slate-800 text-white rounded-xl hover:from-slate-800 hover:to-slate-900 transition-all duration-300 shadow-lg hover:shadow-slate-500/25"
                       >
-                        Email *
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-                  </div>
+                        <Github className="h-5 w-5" />
+                      </Link>
+                    </motion.div>
 
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-sm font-medium text-slate-700 mb-2"
+                    <motion.div
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      Subject *
-                    </label>
-                    <input
-                      id="subject"
-                      name="subject"
-                      type="text"
-                      required
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="What's this about?"
-                    />
+                      <Link
+                        href="mailto:kirtansonagra313@gmail.com"
+                        className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-red-500/25"
+                      >
+                        <Mail className="h-5 w-5" />
+                      </Link>
+                    </motion.div>
                   </div>
+                </div>
+              </div>
+            </motion.div>
 
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-slate-700 mb-2"
-                    >
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full min-h-[120px] px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical"
-                      placeholder="Tell me about your project or just say hello!"
-                    />
-                  </div>
+            {/* Contact Form */}
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <SimpleContactForm />
+            </motion.div>
+          </div>
 
-                  <button
-                    type="submit"
-                    className="w-full inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg transition-colors"
-                  >
-                    <Send className="mr-2 h-5 w-5" />
-                    Send Message
-                  </button>
-                </form>
+          {/* CTA Section */}
+          <motion.div
+            className="mt-16 text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+              <div className="relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 hover:border-green-400/50 transition-all duration-300">
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  Let's Build Something Great Together
+                </h3>
+                <p className="text-gray-300 max-w-2xl mx-auto">
+                  Whether you have a project in mind, need help with
+                  development, or just want to connect with a fellow developer,
+                  I'm always excited to hear from new people. Don't hesitate to
+                  reach out!
+                </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-
-        {/* Additional Info */}
-        <div className="mt-16 text-center">
-          <div className="bg-white/50 backdrop-blur-sm border-0 shadow-lg rounded-lg">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">
-                Let's Build Something Great Together
-              </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
-                Whether you have a project in mind, need help with development,
-                or just want to connect with a fellow developer, I'm always
-                excited to hear from new people. Don't hesitate to reach out!
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
-}
+};
+
+export default ContactForm;
